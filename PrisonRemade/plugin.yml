@@ -1,0 +1,24 @@
+name: PrisonRemade
+main: com.elixermc.prison.Core
+version: 1.0.0
+commands:
+   prnewmine:
+      description: Create a new mine with the worldedit selection.
+      aliases: [prnm]
+      usage: /<command> <name>
+   prdelmine:
+      description: Delete a mine.
+      aliases: [prdm]
+      usage: /<command> <name>
+   prsetresetdelay:
+      description: Set the resetdelay of a mine.
+      aliases: [prsrd]
+      usage: /<command> <name> <delay>
+   prresetmine:
+      description: Reset a mine.
+      aliases: [prrm]
+      usage: /<command> <name>
+   prtoggleautoreset:
+      description: Toggle a mines auto reset value.
+      aliases: [prtar]
+      usage: /<command> <name>
