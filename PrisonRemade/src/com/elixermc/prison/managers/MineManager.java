@@ -1,8 +1,6 @@
 package com.elixermc.prison.managers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -75,24 +73,10 @@ public class MineManager {
     	}
     	return false;
     }
-    public HashMap<String, Integer> getBlockChance(String name) {
+    public List<String> getBlocks(String name) {
     	List<String> blocks = plugin.getConfig().getStringList("Mines."+name+".blocks");
-    	HashMap<String,Integer> info = new HashMap<String,Integer>();
-    	Random ran = new Random();
-    	int area = plugin.getConfig().getInt("Mines."+name+".area");
-    	for (int count = 0;count<area;count++) {
-    		int index = ran.nextInt(blocks.size());
-    		String block = blocks.get(index);
-    		if (info.containsKey(block)) {
-    			int num = info.get(block);
-    			Bukkit.getConsoleSender().sendMessage(""+num+","+count);
-    			info.put(block,num+1);
-    		} else {
-    			info.put(block,1);
-    		}
-    	}
-    	
-    	return info;
+    	Bukkit.getConsoleSender().sendMessage(""+blocks.get(0));
+    	return blocks;
     }
     @SuppressWarnings("deprecation")
 	public void setBlockType(Location l, String m, byte d) {
@@ -130,30 +114,15 @@ public class MineManager {
 		for (int x = minX;x <= maxX;x++) {
 			for (int y = minY;y <= maxY;y++) {
 				for (int z = minZ;z <= maxZ;z++) {
-					int r = rand.nextInt(100)+1;
-					HashMap<String,Integer> info = getBlockChance(name);
-					Location l = new Location(corner1.getWorld(),x,y,z);
-					for (Entry<String, Integer> set : info.entrySet()) {
-						String[] block = set.getKey().split(":");
-						int count = set.getValue();
-						String mat = block[0];
-						byte data = Byte.parseByte(block[1]);
-						int chance = Integer.parseInt(block[2]);
-						if (count == 0) {
-							info.remove(set.getKey());
-							continue;
-						}
-						if (r <= chance) {
-							setBlockType(l,mat,data);
-							count--;
-							set.setValue(count);
-							break;
-						}
-					}	
+					List<String> info = getBlocks(name);
+					int block = rand.nextInt(info.size());
+					String[] split = info.get(block).split(":");
+					String material = split[0];
+					byte data = Byte.parseByte(split[1]);
+					Location l = new Location(corner1.getWorld(),x,y,z);	
+					setBlockType(l,material,data);
 				}
-				continue;
 			}
-			continue;
 		}
 		setResetTimer(name,getResetDelay(name));
 		mm.sendAutoResetMineMessage(name);
@@ -167,32 +136,25 @@ public class MineManager {
 		}
 		Location corner1 = getCorner1(name);
 		Location corner2 = getCorner2(name);
-		Bukkit.getConsoleSender().sendMessage(""+corner1.getBlockX()+","+corner1.getBlockY()+","+corner1.getBlockZ()+","+corner1.getWorld().getName());
-		Bukkit.getConsoleSender().sendMessage(""+corner2);
+		int minX = corner1.getBlockX();
+		int minY = corner1.getBlockY();
+		int minZ = corner1.getBlockZ();
+		int maxX = corner2.getBlockX();
+		int maxY = corner2.getBlockY();
+		int maxZ = corner2.getBlockZ();
 		Random rand = new Random();
-		for (int x = corner1.getBlockX();x <= corner2.getBlockX();x++) {
-			for (int y = corner1.getBlockY();y <= corner2.getBlockY();y++) {
-				for (int z = corner1.getBlockZ();z <= corner2.getBlockZ();z++) {
-					int r = rand.nextInt(100)+1;
-					HashMap<String,Integer> info = getBlockChance(name);
-					Location l = new Location(corner1.getWorld(),x,y,z);
-					for (Entry<String, Integer> set : info.entrySet()) {
-						String[] block = set.getKey().split(":");
-						int count = set.getValue();
-						String mat = block[0];
-						byte data = Byte.parseByte(block[1]);
-						int chance = Integer.parseInt(block[2]);
-						if (count == 0) {
-							info.remove(set.getKey());
-							continue;
-						}
-						if (r <= chance) {
-							setBlockType(l,mat,data);
-							count -= count;
-							set.setValue(count);
-							break;
-						}
-					}
+		for (int x = minX;x <= maxX;x++) {
+			for (int y = minY;y <= maxY;y++) {
+				for (int z = minZ;z <= maxZ;z++) {
+					List<String> info = getBlocks(name);
+					int block = rand.nextInt(info.size());
+					Bukkit.getConsoleSender().sendMessage(""+block);
+					Bukkit.getConsoleSender().sendMessage(""+info.get(block));
+					String[] split = info.get(block).split(":");
+					String material = split[0];
+					byte data = Byte.parseByte(split[1]);
+					Location l = new Location(corner1.getWorld(),x,y,z);	
+					setBlockType(l,material,data);
 				}
 			}
 		}

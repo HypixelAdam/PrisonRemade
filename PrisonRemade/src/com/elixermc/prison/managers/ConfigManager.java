@@ -15,6 +15,7 @@ public class ConfigManager {
 	String prefix;
 	MessageManager mm = null;
 	int id = 0;
+	// TODO MINE METHODS
 	
 	public void createNewMine(Player p, String name,Location corner1, Location corner2, int area) {
 		if (mm == null) {
@@ -32,7 +33,7 @@ public class ConfigManager {
 		List<Integer> corner2b = saveCorner2Location(name,corner2);
 		saveId(name);
 		List<String> blocks = new ArrayList<String>();
-		blocks.add("0:0:100");
+		blocks.add("0:0");
 		plugin.getConfig().set("Mines."+name+".blocks", blocks);
 		plugin.getConfig().set("Mines."+name+".silentreset", false);
 		plugin.getConfig().set("Mines."+name+".resetdelay", 5);
@@ -42,6 +43,7 @@ public class ConfigManager {
 		mm.sendNewMineMessage(p, name, corner1b, corner2b);
 		return;
 	}
+	
 	public void deleteMine(Player p, String name) {
 		if (mm == null) {
 			mm = new MessageManager();
@@ -51,20 +53,7 @@ public class ConfigManager {
 		mm.sendDeleteMineMessage(p, name);
 		return;
 	}
-	public void setResetDelay(Player p, String name, String delay) {
-		if (mm == null) {
-			mm = new MessageManager();
-		}
-		plugin.getConfig().set("Mines."+name+".resetdelay", Integer.parseInt(delay));
-		plugin.saveConfig();
-		mm.sendSetResetDelayMessage(p,name,delay);
-		return;
-	}
-	public void saveId(String name) {
-		plugin.getConfig().set("Mines."+name+".id", id);
-		plugin.saveConfig();
-		return;
-	}
+	
 	public List<Integer> saveCorner1Location(String name, Location loc) {
 		int x = loc.getBlockX();
 		int y = loc.getBlockY();
@@ -79,6 +68,7 @@ public class ConfigManager {
 		intblocks.add(x); intblocks.add(y); intblocks.add(z);
 		return intblocks;
 	}
+	
 	public List<Integer> saveCorner2Location(String name, Location loc) {
 		int x = loc.getBlockX();
 		int y = loc.getBlockY();
@@ -93,10 +83,43 @@ public class ConfigManager {
 		intblocks.add(x); intblocks.add(y); intblocks.add(z);
 		return intblocks;
 	}
+	// TODO ADD BLOCK METHODS
+	public void addBlock(String name, String block) {
+		List<String> blocks = plugin.getConfig().getStringList("Mines."+name+".blocks");
+		blocks.add(block);
+		plugin.getConfig().set("Mines."+name+".blocks", blocks);
+		plugin.saveConfig();
+		return;
+	}
+	public void removeBlock(String name, int id) {
+		
+	}
+	public void listBlocks(Player p,String name) {
+		List<String> blocks = plugin.getConfig().getStringList("Mines."+name+".blocks");
+		int blockSize = blocks.size();
+		int count = 0;
+		
+		int start = 0 * 5;
+		int end = start + 5;
+		
+		for (int i = 0;i<blockSize;i++) {
+			if (count >= start && count < end) {
+				
+			}
+		}
+	}
+	public void listBlocks(String name,int page) {
+		List<String> blocks = plugin.getConfig().getStringList("Mines."+name+".blocks");
+		for (int i = 0;i<blocks.size();i++) {
+			
+		}
+	}
+	// TODO AUTO RESET METHODS
 	public boolean isAutoResetOn(String name) {
 		boolean b = plugin.getConfig().getBoolean("Mines."+name+".autoreset");
 		if (b) {return true;} else {return false;}
 	}
+	
 	public void setAutoReset(Player p,String name, boolean b) {
 		if (mm == null) {
 			mm = new MessageManager();
@@ -106,6 +129,23 @@ public class ConfigManager {
 		mm.sendSetAutoResetMessage(p, name, b);
 		return;
 	}
+	
+	public void setResetDelay(Player p, String name, String delay) {
+		if (mm == null) {
+			mm = new MessageManager();
+		}
+		plugin.getConfig().set("Mines."+name+".resetdelay", Integer.parseInt(delay));
+		plugin.saveConfig();
+		mm.sendSetResetDelayMessage(p,name,delay);
+		return;
+	}
+	// TODO ID METHODS
+	public void saveId(String name) {
+		plugin.getConfig().set("Mines."+name+".id", id);
+		plugin.saveConfig();
+		return;
+	}
+	
 	public int getNewMineId() {
 		id = 0;
 		for (String name : plugin.getConfig().getConfigurationSection("Mines").getKeys(false)) {
@@ -119,6 +159,8 @@ public class ConfigManager {
 		}
 		return id;
 	}
+	
+	// TODO OTHER METHODS
 	public boolean doesMineExist(String name) {
 		if (plugin.getConfig().getString("Mines."+name) != null) {
 			return true;
@@ -126,6 +168,7 @@ public class ConfigManager {
 			return false;
 		}
 	}
+	
 	public boolean isSilent(String name) {
 		if (plugin.getConfig().getBoolean("Mines."+name+".silentreset")) {
 			return true;
@@ -133,6 +176,7 @@ public class ConfigManager {
 			return false;
 		}
 	}
+	
 	public String format(String s) {
 		return ChatColor.translateAlternateColorCodes('&',s);
 	}

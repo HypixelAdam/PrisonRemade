@@ -73,6 +73,11 @@ public class MessageManager {
 		}
 		return;
 	}
+	public void sendAddedBlockMessage(Player p, String name, String block, byte data, int chance) {
+		String message = String.format("&aAdded block &e%s&a:&e%s with a chance of &e%s&a.", block,data,chance);
+		p.sendMessage(format(prefix+message));
+		return;
+	}
 	private String format(String s) {
 		return ChatColor.translateAlternateColorCodes('&', s);
 	}
