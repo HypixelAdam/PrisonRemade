@@ -73,8 +73,18 @@ public class MessageManager {
 		}
 		return;
 	}
-	public void sendAddedBlockMessage(Player p, String name, String block, byte data, int chance) {
-		String message = String.format("&aAdded block &e%s&a:&e%s with a chance of &e%s&a.", block,data,chance);
+	public void sendAddedBlockMessage(Player p, String name, String block, byte data) {
+		String message = String.format("&aAdded block &e"+block+"&a,&e%s&a to &e%s&a.",data,name);
+		p.sendMessage(format(prefix+message));
+		return;
+	}
+	public void sendRemovedBlockMessage(Player p, String name, String block) {
+		String message = String.format("&aRemoved block &e"+block+" &afrom &e%s&a.",name);
+		p.sendMessage(format(prefix+message));
+		return;
+	}
+	public void sendSetSilentModeMessage(Player p, String name, boolean b) {
+		String message = String.format("&aSilent mode has been set to &e%s&a on &e%s&a.",b,name);
 		p.sendMessage(format(prefix+message));
 		return;
 	}

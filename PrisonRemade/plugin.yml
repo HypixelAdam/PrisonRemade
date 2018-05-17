@@ -1,6 +1,6 @@
 name: PrisonRemade
 main: com.elixermc.prison.Core
-version: 1.0.0
+version: 1.5.3
 commands:
    prnewmine:
       description: Create a new mine with the worldedit selection.
@@ -21,4 +21,20 @@ commands:
    prtoggleautoreset:
       description: Toggle a mines auto reset value.
       aliases: [prtar]
+      usage: /<command> <name>
+   praddblock:
+      description: Add's a block to a mine.
+      aliases: [prab]
+      usage: /<command> <name> <block id> [data]
+   prlistblocks:
+      description: List the blocks inside of a mine.
+      aliases: [prlb]
+      usage: /<command> <name> [page]
+   prremoveblock:
+      description: Remove a block from a mine.
+      aliases: [prrb]
+      usage: /<command> <name> <id>
+   prtogglesilent:
+      description: Toggle silent mode on mines.
+      aliases: [prts]
       usage: /<command> <name>

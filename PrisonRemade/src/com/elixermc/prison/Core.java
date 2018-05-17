@@ -11,11 +11,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.elixermc.prison.commands.AddBlock;
 import com.elixermc.prison.commands.DeleteMine;
+import com.elixermc.prison.commands.ListBlocks;
 import com.elixermc.prison.commands.NewMine;
+import com.elixermc.prison.commands.RemoveBlock;
 import com.elixermc.prison.commands.ResetMine;
 import com.elixermc.prison.commands.SetResetDelay;
 import com.elixermc.prison.commands.ToggleAutoReset;
+import com.elixermc.prison.commands.ToggleSilent;
 import com.elixermc.prison.events.InventoryClick;
 import com.elixermc.prison.managers.MineManager;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -58,6 +62,10 @@ public class Core extends JavaPlugin {
 		getCmds("prsetresetdelay",new SetResetDelay());
 		getCmds("prresetmine",new ResetMine());
 		getCmds("prtoggleautoreset",new ToggleAutoReset());
+		getCmds("praddblock",new AddBlock());
+		getCmds("prlistblocks",new ListBlocks());
+		getCmds("prremoveblock",new RemoveBlock());
+		getCmds("prtogglesilent",new ToggleSilent());
 		// ADD LISTENERS HERE
 		getLisn(new InventoryClick(),this);
 	}

@@ -81,6 +81,7 @@ public class MineManager {
     @SuppressWarnings("deprecation")
 	public void setBlockType(Location l, String m, byte d) {
     	Material mat = Material.getMaterial(Integer.parseInt(m));
+    	Bukkit.getConsoleSender().sendMessage(""+mat.name());
     	Block b = l.getBlock();
     	b.setType(mat);
     	b.setData(d);
@@ -116,7 +117,7 @@ public class MineManager {
 				for (int z = minZ;z <= maxZ;z++) {
 					List<String> info = getBlocks(name);
 					int block = rand.nextInt(info.size());
-					String[] split = info.get(block).split(":");
+					String[] split = info.get(block).split(",");
 					String material = split[0];
 					byte data = Byte.parseByte(split[1]);
 					Location l = new Location(corner1.getWorld(),x,y,z);	
@@ -150,7 +151,7 @@ public class MineManager {
 					int block = rand.nextInt(info.size());
 					Bukkit.getConsoleSender().sendMessage(""+block);
 					Bukkit.getConsoleSender().sendMessage(""+info.get(block));
-					String[] split = info.get(block).split(":");
+					String[] split = info.get(block).split(",");
 					String material = split[0];
 					byte data = Byte.parseByte(split[1]);
 					Location l = new Location(corner1.getWorld(),x,y,z);	
